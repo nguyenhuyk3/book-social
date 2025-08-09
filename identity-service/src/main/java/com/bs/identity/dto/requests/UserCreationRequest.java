@@ -30,8 +30,8 @@ public class UserCreationRequest {
     String firstName;
     String lastName;
 
-    @DobConstraint(min = 10, message = "INVALID_DOB")
-    LocalDate dob;
+    @DobConstraint(min = 10, message = "INVALID_DATE_OF_BIRTH")
+    LocalDate dateOfBirth;
 
     String city;
 }

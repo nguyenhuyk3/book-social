@@ -10,11 +10,15 @@ import com.bs.identity.dto.requests.ApiResponse;
 import com.bs.identity.dto.requests.ProfileCreationRequest;
 import com.bs.identity.dto.responses.UserProfileResponse;
 
+//@FeignClient(
+//        name = "profile-service",
+//        url = "${app.services.profile}",
+//        configuration = {AuthenticationRequestInterceptor.class})
 @FeignClient(
         name = "profile-service",
-        url = "${app.services.profile}",
-        configuration = {AuthenticationRequestInterceptor.class})
+        url = "${app.services.profile}"
+)
 public interface ProfileClient {
-    @PostMapping(value = "/internal/users", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
     ApiResponse<UserProfileResponse> createProfile(@RequestBody ProfileCreationRequest request);
 }
