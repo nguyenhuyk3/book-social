@@ -23,7 +23,7 @@ import com.bs.identity.mappers.ProfileMapper;
 import com.bs.identity.mappers.UserMapper;
 import com.bs.identity.repositories.RoleRepository;
 import com.bs.identity.repositories.UserRepository;
-import com.bs.identity.repositories.httpclient.ProfileClient;
+import com.bs.identity.repositories.httpClient.ProfileClient;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

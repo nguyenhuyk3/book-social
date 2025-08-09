@@ -1,4 +1,4 @@
-package com.bs.identity.repositories.httpclient;
+package com.bs.identity.repositories.httpClient;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
