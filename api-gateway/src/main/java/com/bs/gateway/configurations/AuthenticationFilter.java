@@ -48,14 +48,15 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
 
     @Value("${app.apiPrefix}")
     @NonFinal
-    private String apiPrefix;
+    private String API_PREFIX;
 
     private boolean isPublicEndpoint(ServerHttpRequest request) {
-        return Arrays.stream(publicEndpoints)
+        return Arrays
+                .stream(publicEndpoints)
                 .anyMatch(s -> request
                         .getURI()
                         .getPath()
-                        .matches(apiPrefix + s));
+                        .matches(API_PREFIX + s));
     }
 
     /*
@@ -99,6 +100,9 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
     */
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        /*
+            Kiểm tra nếu là public api thì sẽ được qua filter này
+        */
         if (isPublicEndpoint(exchange.getRequest())) {
             return chain.filter(exchange);
         }
