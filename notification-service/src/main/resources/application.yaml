@@ -20,6 +20,6 @@ spring:
 notification:
   email:
     brevoUrl: https://api.brevo.com
-    brevoApikey: <key>
+    brevoApikey: "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"
     senderName: "Nguyễn Quốc Huy"
-    senderEmail: "huykimcuong5@gmail.com"
+    senderEmail: "nguyenquochuy16092003@gmail.com"
