@@ -13,7 +13,7 @@ import java.time.Instant;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "chat_message")
+@Document(collection = "chat_messages")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ChatMessage {
     @MongoId

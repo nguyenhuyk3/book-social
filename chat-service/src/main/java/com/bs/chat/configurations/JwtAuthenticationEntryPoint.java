@@ -1,8 +1,9 @@
 package com.bs.chat.configurations;
 
 
-import com.bs.profile.dto.responses.ApiResponse;
-import com.bs.profile.exceptions.ErrorCode;
+
+import com.bs.chat.dto.responses.ApiResponse;
+import com.bs.chat.exceptions.ErrorCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

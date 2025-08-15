@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "conversation")
+@Document(collection = "conversations")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Conversation {
     @MongoId
@@ -28,6 +28,5 @@ public class Conversation {
     List<ParticipantInfo> participants;
 
     Instant createdDate;
-
     Instant modifiedDate;
 }
