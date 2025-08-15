@@ -1,7 +1,8 @@
-package com.bs.file.configurations;
+package com.bs.chat.configurations;
 
-import com.bs.file.dto.responses.ApiResponse;
-import com.bs.file.exceptions.ErrorCode;
+
+import com.bs.profile.dto.responses.ApiResponse;
+import com.bs.profile.exceptions.ErrorCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,7 +26,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
                 .code(errorCode.getCode())
                 .message(errorCode.getMessage())
                 .build();
-
         ObjectMapper objectMapper = new ObjectMapper();
 
         response.getWriter().write(objectMapper.writeValueAsString(apiResponse));
