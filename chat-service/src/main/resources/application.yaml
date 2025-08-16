@@ -2,6 +2,8 @@ server:
   port: 8085
   servlet:
     context-path: /chat
+websocket:
+  port: 8099
 spring:
   application:
     name: chat-service
