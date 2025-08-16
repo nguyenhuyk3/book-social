@@ -19,7 +19,7 @@ spring:
         spring.json.trusted.packages: "*"
 notification:
   email:
-    brevoUrl: https://api.brevo.com
-    brevoApikey: "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"
-    senderName: "Nguyễn Quốc Huy"
-    senderEmail: "nguyenquochuy16092003@gmail.com"
+    brevo-url: https://api.brevo.com
+    brevo-api-key: "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"
+    sender-name: "Nguyễn Quốc Huy"
+    sender-email: "nguyenquochuy16092003@gmail.com"

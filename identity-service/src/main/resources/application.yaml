@@ -8,7 +8,7 @@ spring:
     name: identity-service
   datasource:
     url: "jdbc:mysql://localhost:3306/identity_service"
-    driverClassName: "com.mysql.cj.jdbc.Driver"
+    driver-class-name: "com.mysql.cj.jdbc.Driver"
     username: root
     password: anhiuemlove33
   jpa:
@@ -21,14 +21,14 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 jwt:
-  signerKey: "1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij"
+  signer-key: "1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij"
   issuer: "nguyenquochuy16092003"
   valid-duration: 3600 # in second
   refreshable-duration: 36000 # in seconds
 
 admin:
-  secretUsername: "admin"
-  secretPassword: "anhiuemlove33"
+  secret-username: "admin"
+  secret-password: "anhiuemlove33"
 
 app:
   services:

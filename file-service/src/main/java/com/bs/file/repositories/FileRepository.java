@@ -20,10 +20,10 @@ import java.util.UUID;
 
 @Repository
 public class FileRepository {
-    @Value("${app.file.storageDir}")
+    @Value("${app.file.storage-dir}")
     String STORAGE_DIR;
 
-    @Value("${app.file.downloadPrefix}")
+    @Value("${app.file.download-prefix}")
     String DOWNLOAD_PREFIX;
 
     public FileInfo store(MultipartFile file) throws IOException {

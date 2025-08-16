@@ -23,15 +23,15 @@ import java.util.List;
 public class EmailService {
     EmailClient emailClient;
 
-    @Value("${notification.email.brevoApikey}")
+    @Value("${notification.email.brevo-api-key}")
     @NonFinal
     String API_KEY;
 
-    @Value("${notification.email.senderName}")
+    @Value("${notification.email.sender-name}")
     @NonFinal
     String SENDER_NAME;
 
-    @Value("${notification.email.senderEmail}")
+    @Value("${notification.email.sender-email}")
     @NonFinal
     String SENDER_EMAIL;
 
