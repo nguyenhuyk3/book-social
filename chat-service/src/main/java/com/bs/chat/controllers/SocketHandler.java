@@ -1,7 +1,9 @@
 package com.bs.chat.controllers;
 
 import com.bs.chat.dto.requests.IntrospectRequest;
+import com.bs.chat.entities.WebSocketSession;
 import com.bs.chat.services.IdentityService;
+import com.bs.chat.services.WebSocketSessionService;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.annotation.OnConnect;
@@ -15,6 +17,8 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -22,6 +26,7 @@ import org.springframework.stereotype.Component;
 public class SocketHandler {
     SocketIOServer server;
     IdentityService identityService;
+    WebSocketSessionService webSocketSessionService;
 
     @OnConnect
     public void clientConnected(SocketIOClient socketIOClient) {
@@ -35,6 +40,15 @@ public class SocketHandler {
                         .build());
 
         if (introspectResponse.isValid()) {
+            WebSocketSession webSocketSession = WebSocketSession
+                    .builder()
+                    .socketSessionId(socketIOClient.getSessionId().toString())
+                    .userId(introspectResponse.getUserId())
+                    .createdAt(Instant.now())
+                    .build();
+
+            webSocketSession = webSocketSessionService.create(webSocketSession);
+
             log.info("Client connected: {}", socketIOClient.getSessionId());
         } else {
             log.error("Authentication fail: {}", socketIOClient.getSessionId());
@@ -45,7 +59,7 @@ public class SocketHandler {
 
     @OnDisconnect
     public void clientDisconnected(SocketIOClient socketIOClient) {
-
+        webSocketSessionService.deleteSession(socketIOClient.getSessionId().toString());
     }
 
     /*

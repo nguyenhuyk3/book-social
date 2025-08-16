@@ -4,12 +4,17 @@ import com.bs.chat.dto.requests.ChatMessageRequest;
 import com.bs.chat.dto.responses.ChatMessageResponse;
 import com.bs.chat.entities.ChatMessage;
 import com.bs.chat.entities.ParticipantInfo;
+import com.bs.chat.entities.WebSocketSession;
 import com.bs.chat.exceptions.AppException;
 import com.bs.chat.exceptions.ErrorCode;
 import com.bs.chat.mappers.ChatMessageMapper;
 import com.bs.chat.repositories.ChatMessageRepository;
 import com.bs.chat.repositories.ConversationRepository;
+import com.bs.chat.repositories.WebSocketSessionRepository;
 import com.bs.chat.repositories.httpClient.ProfileClient;
+import com.corundumstudio.socketio.SocketIOServer;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -19,25 +24,31 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ChatMessageService {
+    SocketIOServer socketIOServer;
+
     ChatMessageRepository chatMessageRepository;
     ConversationRepository conversationRepository;
+    WebSocketSessionRepository webSocketSessionRepository;
     ProfileClient profileClient;
 
+    ObjectMapper objectMapper;
     ChatMessageMapper chatMessageMapper;
 
     public List<ChatMessageResponse> getMessages(String conversationId) {
         // Validate conversationId
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        conversationRepository
-                .findById(conversationId)
+        conversationRepository.findById(conversationId)
                 .orElseThrow(() -> new AppException(ErrorCode.CONVERSATION_NOT_FOUND))
                 .getParticipants()
                 .stream()
@@ -50,13 +61,13 @@ public class ChatMessageService {
         return messages.stream().map(this::toChatMessageResponse).toList();
     }
 
-    public ChatMessageResponse create(ChatMessageRequest request) {
+    public ChatMessageResponse create(ChatMessageRequest request) throws JsonProcessingException {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         // Validate conversationId
-        conversationRepository
-                .findById(request.getConversationId())
-                .orElseThrow(() -> new AppException(ErrorCode.CONVERSATION_NOT_FOUND))
-                .getParticipants()
+        var conversation = conversationRepository.findById(request.getConversationId())
+                .orElseThrow(() -> new AppException(ErrorCode.CONVERSATION_NOT_FOUND));
+
+        conversation.getParticipants()
                 .stream()
                 .filter(participantInfo -> userId.equals(participantInfo.getUserId()))
                 .findAny()
@@ -74,18 +85,50 @@ public class ChatMessageService {
         // Build Chat message Info
         ChatMessage chatMessage = chatMessageMapper.toChatMessage(request);
 
-        chatMessage
-                .setSender(ParticipantInfo
-                        .builder()
-                        .userId(userInfo.getUserId())
-                        .username(userInfo.getUsername())
-                        .firstName(userInfo.getFirstName())
-                        .lastName(userInfo.getLastName())
-                        .avatar(userInfo.getAvatar())
-                        .build());
+        chatMessage.setSender(ParticipantInfo
+                .builder()
+                .userId(userInfo.getUserId())
+                .username(userInfo.getUsername())
+                .firstName(userInfo.getFirstName())
+                .lastName(userInfo.getLastName())
+                .avatar(userInfo.getAvatar())
+                .build());
         chatMessage.setCreatedDate(Instant.now());
         // Create chat message
         chatMessage = chatMessageRepository.save(chatMessage);
+        // Publish socket event to clients is conversation
+        // Get participants userIds;
+        List<String> userIds = conversation
+                .getParticipants()
+                .stream()
+                .map(ParticipantInfo::getUserId)
+                .toList();
+        Map<String, WebSocketSession> webSocketSessions =
+                webSocketSessionRepository
+                        .findAllByUserIdIn(userIds)
+                        .stream()
+                        .collect(Collectors.toMap(WebSocketSession::getSocketSessionId, Function.identity()));
+
+        ChatMessageResponse chatMessageResponse = chatMessageMapper.toChatMessageResponse(chatMessage);
+
+        socketIOServer.getAllClients().forEach(client -> {
+            var webSocketSession = webSocketSessions.get(client.getSessionId().toString());
+
+            if (Objects.nonNull(webSocketSession)) {
+                String message = null;
+
+                try {
+                    chatMessageResponse.setMe(webSocketSession.getUserId().equals(userId));
+
+                    message = objectMapper.writeValueAsString(chatMessageResponse);
+
+                    client.sendEvent("message", message);
+                } catch (JsonProcessingException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
         // convert to Response
         return toChatMessageResponse(chatMessage);
     }
