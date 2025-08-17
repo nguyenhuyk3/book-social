@@ -21,42 +21,48 @@ public class UserProfileController {
 
     @GetMapping("/users/{profileId}")
     ApiResponse<UserProfileResponse> getProfile(@PathVariable String profileId) {
-        return ApiResponse.<UserProfileResponse>builder()
+        return ApiResponse
+                .<UserProfileResponse>builder()
                 .result(userProfileService.getProfile(profileId))
                 .build();
     }
 
     @GetMapping("/users")
     ApiResponse<List<UserProfileResponse>> getAllProfiles() {
-        return ApiResponse.<List<UserProfileResponse>>builder()
+        return ApiResponse
+                .<List<UserProfileResponse>>builder()
                 .result(userProfileService.getAllProfiles())
                 .build();
     }
 
     @GetMapping("/users/my-profile")
     ApiResponse<UserProfileResponse> getMyProfile() {
-        return ApiResponse.<UserProfileResponse>builder()
+        return ApiResponse
+                .<UserProfileResponse>builder()
                 .result(userProfileService.getMyProfile())
                 .build();
     }
 
     @PutMapping("/users/my-profile")
     ApiResponse<UserProfileResponse> updateMyProfile(@RequestBody UpdateProfileRequest request) {
-        return ApiResponse.<UserProfileResponse>builder()
+        return ApiResponse
+                .<UserProfileResponse>builder()
                 .result(userProfileService.updateMyProfile(request))
                 .build();
     }
 
     @PutMapping("/users/avatar")
     ApiResponse<UserProfileResponse> updateAvatar(@RequestParam("file") MultipartFile file) {
-        return ApiResponse.<UserProfileResponse>builder()
+        return ApiResponse
+                .<UserProfileResponse>builder()
                 .result(userProfileService.updateAvatar(file))
                 .build();
     }
 
     @PostMapping("/users/search")
     ApiResponse<List<UserProfileResponse>> search(@RequestBody SearchUserRequest request) {
-        return ApiResponse.<List<UserProfileResponse>>builder()
+        return ApiResponse
+                .<List<UserProfileResponse>>builder()
                 .result(userProfileService.search(request))
                 .build();
     }

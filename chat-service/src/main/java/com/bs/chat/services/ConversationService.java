@@ -40,7 +40,7 @@ public class ConversationService {
     }
 
     public ConversationResponse create(ConversationRequest request) {
-        // Fetch user infos
+        // Lấy user infos
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         var userInfoResponse = profileClient.getProfile(userId);
         var participantInfoResponse = profileClient.getProfile(

@@ -1,6 +1,6 @@
 package com.bs.file.repositories;
 
-import com.bs.file.dto.responses.FileInfo;
+import com.bs.file.dto.FileInfo;
 import com.bs.file.entities.FileMgmt;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;

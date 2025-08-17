@@ -24,7 +24,8 @@ public class PostController {
 
     @PostMapping("/create")
     ApiResponse<PostResponse> createPost(@RequestBody PostRequest request) {
-        return ApiResponse.<PostResponse>builder()
+        return ApiResponse
+                .<PostResponse>builder()
                 .result(postService.createPost(request))
                 .build();
     }
@@ -34,7 +35,8 @@ public class PostController {
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
             @RequestParam(value = "size", required = false, defaultValue = "10") int size
     ) {
-        return ApiResponse.<PageResponse<PostResponse>>builder()
+        return ApiResponse
+                .<PageResponse<PostResponse>>builder()
                 .result(postService.getMyPosts(page, size))
                 .build();
     }

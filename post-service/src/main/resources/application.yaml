@@ -7,7 +7,7 @@ spring:
     name: post-service
   data:
     mongodb:
-      uri: mongodb://root:root@localhost:27017/notification_service?authSource=admin
+      uri: mongodb://root:root@localhost:27017/bs_notification_service?authSource=admin
 app:
   services:
     profile:

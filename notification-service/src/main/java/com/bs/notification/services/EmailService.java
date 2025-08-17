@@ -6,7 +6,7 @@ import com.bs.notification.dto.requests.Sender;
 import com.bs.notification.dto.responses.EmailResponse;
 import com.bs.notification.exceptions.AppException;
 import com.bs.notification.exceptions.ErrorCode;
-import com.bs.notification.repositories.HttpClient.EmailClient;
+import com.bs.notification.repositories.httpClient.EmailClient;
 import feign.FeignException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.bs.notification.repositories.HttpClient;
+package com.bs.notification.repositories.httpClient;
 
 
 import com.bs.notification.dto.requests.EmailRequest;

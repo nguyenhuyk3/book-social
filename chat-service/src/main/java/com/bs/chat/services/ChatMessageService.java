@@ -63,7 +63,7 @@ public class ChatMessageService {
 
     public ChatMessageResponse create(ChatMessageRequest request) throws JsonProcessingException {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
-        // Validate conversationId
+        // Xác thực conversationId
         var conversation = conversationRepository.findById(request.getConversationId())
                 .orElseThrow(() -> new AppException(ErrorCode.CONVERSATION_NOT_FOUND));
 
@@ -73,7 +73,7 @@ public class ChatMessageService {
                 .findAny()
                 .orElseThrow(() -> new AppException(ErrorCode.CONVERSATION_NOT_FOUND));
 
-        // Get UserInfo from ProfileService
+        // Lấy UserInfo từ ProfileService
         var userResponse = profileClient.getProfile(userId);
 
         if (Objects.isNull(userResponse)) {
@@ -82,7 +82,6 @@ public class ChatMessageService {
 
         var userInfo = userResponse.getResult();
 
-        // Build Chat message Info
         ChatMessage chatMessage = chatMessageMapper.toChatMessage(request);
 
         chatMessage.setSender(ParticipantInfo
@@ -94,10 +93,9 @@ public class ChatMessageService {
                 .avatar(userInfo.getAvatar())
                 .build());
         chatMessage.setCreatedDate(Instant.now());
-        // Create chat message
         chatMessage = chatMessageRepository.save(chatMessage);
-        // Publish socket event to clients is conversation
-        // Get participants userIds;
+        // Xuất bản socket event tới clients là conversation
+        // Lấy participants userIds;
         List<String> userIds = conversation
                 .getParticipants()
                 .stream()
@@ -129,7 +127,6 @@ public class ChatMessageService {
             }
         });
 
-        // convert to Response
         return toChatMessageResponse(chatMessage);
     }
 

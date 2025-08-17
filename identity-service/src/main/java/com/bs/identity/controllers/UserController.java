@@ -27,21 +27,24 @@ public class UserController {
 
     @PostMapping("/registration")
     ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
-        return ApiResponse.<UserResponse>builder()
+        return ApiResponse
+                .<UserResponse>builder()
                 .result(userService.createUser(request))
                 .build();
     }
 
     @GetMapping
     ApiResponse<List<UserResponse>> getUsers() {
-        return ApiResponse.<List<UserResponse>>builder()
+        return ApiResponse
+                .<List<UserResponse>>builder()
                 .result(userService.getUsers())
                 .build();
     }
 
     @GetMapping("/{userId}")
     ApiResponse<UserResponse> getUser(@PathVariable("userId") String userId) {
-        return ApiResponse.<UserResponse>builder()
+        return ApiResponse
+                .<UserResponse>builder()
                 .result(userService.getUser(userId))
                 .build();
     }

@@ -23,7 +23,8 @@ public class ChatMessageController {
     @PostMapping("/create")
     ApiResponse<ChatMessageResponse> create(
             @RequestBody @Valid ChatMessageRequest request) throws JsonProcessingException {
-        return ApiResponse.<ChatMessageResponse>builder()
+        return ApiResponse.
+                <ChatMessageResponse>builder()
                 .result(chatMessageService.create(request))
                 .build();
     }
@@ -31,7 +32,8 @@ public class ChatMessageController {
     @GetMapping
     ApiResponse<List<ChatMessageResponse>> getMessages(
             @RequestParam("conversationId") String conversationId) {
-        return ApiResponse.<List<ChatMessageResponse>>builder()
+        return ApiResponse.
+                <List<ChatMessageResponse>>builder()
                 .result(chatMessageService.getMessages(conversationId))
                 .build();
     }

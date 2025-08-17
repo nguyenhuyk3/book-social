@@ -22,7 +22,8 @@ public class FileController {
 
     @PostMapping("/media/upload")
     ApiResponse<FileResponse> uploadMedia(@RequestParam("file") MultipartFile file) throws IOException {
-        return ApiResponse.<FileResponse>builder()
+        return ApiResponse.
+                <FileResponse>builder()
                 .result(fileService.uploadFile(file))
                 .build();
     }
@@ -31,7 +32,8 @@ public class FileController {
     ResponseEntity<Resource> downloadMedia(@PathVariable String fileName) throws IOException {
         var fileData = fileService.download(fileName);
 
-        return ResponseEntity.<Resource>ok()
+        return ResponseEntity
+                .<Resource>ok()
                 .header(HttpHeaders.CONTENT_TYPE, fileData.contentType())
                 .body(fileData.resource());
     }

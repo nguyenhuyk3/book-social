@@ -7,7 +7,7 @@ spring:
     name: file-service
   data:
     mongodb:
-      uri: mongodb://root:anhiuemlove33@localhost:27017/file_service?authSource=admin
+      uri: mongodb://root:anhiuemlove33@localhost:27017/bs_file_service?authSource=admin
   servlet:
     multipart:
       max-file-size: 5MB

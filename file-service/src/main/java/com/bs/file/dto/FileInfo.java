@@ -1,4 +1,4 @@
-package com.bs.file.dto.responses;
+package com.bs.file.dto;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

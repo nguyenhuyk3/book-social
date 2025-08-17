@@ -44,12 +44,14 @@ public class ApplicationInitConfig {
     ApplicationRunner applicationRunner(UserRepository userRepository, RoleRepository roleRepository) {
         return args -> {
             if (userRepository.findByUsername(SECRET_USERNAME).isEmpty()) {
-                roleRepository.save(Role.builder()
+                roleRepository.save(Role
+                        .builder()
                         .name(PredefinedRole.USER_ROLE)
                         .description("User role")
                         .build());
 
-                Role adminRole = roleRepository.save(Role.builder()
+                Role adminRole = roleRepository.save(Role
+                        .builder()
                         .name(PredefinedRole.ADMIN_ROLE)
                         .description("Admin role")
                         .build());
@@ -58,7 +60,8 @@ public class ApplicationInitConfig {
 
                 roles.add(adminRole);
 
-                User user = User.builder()
+                User user = User
+                        .builder()
                         .username(SECRET_USERNAME)
                         .emailVerified(true)
                         .password(passwordEncoder.encode(SECRET_PASSWORD))

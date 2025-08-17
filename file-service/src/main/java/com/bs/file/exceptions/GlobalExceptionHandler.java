@@ -43,7 +43,8 @@ public class GlobalExceptionHandler {
         ErrorCode errorCode = ErrorCode.UNAUTHORIZED;
 
         return ResponseEntity.status(errorCode.getStatusCode())
-                .body(ApiResponse.builder()
+                .body(ApiResponse
+                        .builder()
                         .code(errorCode.getCode())
                         .message(errorCode.getMessage())
                         .build());

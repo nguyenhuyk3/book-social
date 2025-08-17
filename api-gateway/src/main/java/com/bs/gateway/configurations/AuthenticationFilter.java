@@ -46,7 +46,7 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
             "/file/media/download/.*"
     };
 
-    @Value("${app.apiPrefix}")
+    @Value("${app.api-prefix}")
     @NonFinal
     private String API_PREFIX;
 
@@ -87,9 +87,13 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
                 - response.writeWith(Mono<DataBuffer>): Ghi dữ liệu trong DataBuffer vào HTTP response một cách
             bất đồng bộ và trả về Mono<Void> báo hiệu quá trình ghi đã hoàn tất.
         */
-        return response.writeWith(
-                Mono.just(
-                        response.bufferFactory().wrap(body.getBytes())));
+        /*
+            Mono<Void> đại diện cho một tác vụ bất đồng bộ mà không phát ra giá trị nào, chỉ báo hiệu hoàn thành hoặc lỗi.
+            response.writeWith(...) → trả về Mono<Void>
+        */
+        return response.writeWith(Mono.just(response
+                .bufferFactory()
+                .wrap(body.getBytes())));
     }
 
     /*

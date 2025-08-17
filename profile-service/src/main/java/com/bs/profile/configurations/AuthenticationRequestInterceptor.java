@@ -13,7 +13,6 @@ public class AuthenticationRequestInterceptor implements RequestInterceptor {
     public void apply(RequestTemplate template) {
         ServletRequestAttributes servletRequestAttributes =
                 (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-
         var authHeader = servletRequestAttributes.getRequest().getHeader("Authorization");
 
         if (StringUtils.hasText(authHeader)) {

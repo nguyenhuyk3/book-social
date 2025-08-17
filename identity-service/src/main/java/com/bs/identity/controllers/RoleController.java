@@ -24,14 +24,16 @@ public class RoleController {
 
     @PostMapping
     ApiResponse<RoleResponse> create(@RequestBody RoleRequest request) {
-        return ApiResponse.<RoleResponse>builder()
+        return ApiResponse
+                .<RoleResponse>builder()
                 .result(roleService.create(request))
                 .build();
     }
 
     @GetMapping
     ApiResponse<List<RoleResponse>> getAll() {
-        return ApiResponse.<List<RoleResponse>>builder()
+        return ApiResponse
+                .<List<RoleResponse>>builder()
                 .result(roleService.getAll())
                 .build();
     }
@@ -40,6 +42,8 @@ public class RoleController {
     ApiResponse<Void> delete(@PathVariable String role) {
         roleService.delete(role);
 
-        return ApiResponse.<Void>builder().build();
+        return ApiResponse
+                .<Void>builder()
+                .build();
     }
 }

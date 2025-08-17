@@ -17,14 +17,16 @@ public class InternalUserProfileController {
 
     @PostMapping("/internal/users")
     ApiResponse<UserProfileResponse> createProfile(@RequestBody ProfileCreationRequest request) {
-        return ApiResponse.<UserProfileResponse>builder()
+        return ApiResponse
+                .<UserProfileResponse>builder()
                 .result(userProfileService.createProfile(request))
                 .build();
     }
 
     @GetMapping("/internal/users/{userId}")
     ApiResponse<UserProfileResponse> getProfile(@PathVariable String userId) {
-        return ApiResponse.<UserProfileResponse>builder()
+        return ApiResponse
+                .<UserProfileResponse>builder()
                 .result(userProfileService.getByUserId(userId))
                 .build();
     }

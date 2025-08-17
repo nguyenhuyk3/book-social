@@ -22,14 +22,16 @@ public class ConversationController {
 
     @PostMapping("/create")
     ApiResponse<ConversationResponse> createConversation(@RequestBody @Valid ConversationRequest request) {
-        return ApiResponse.<ConversationResponse>builder()
+        return ApiResponse.
+                <ConversationResponse>builder()
                 .result(conversationService.create(request))
                 .build();
     }
 
     @GetMapping("/my-conversations")
     ApiResponse<List<ConversationResponse>> myConversations() {
-        return ApiResponse.<List<ConversationResponse>>builder()
+        return ApiResponse.
+                <List<ConversationResponse>>builder()
                 .result(conversationService.myConversations())
                 .build();
     }

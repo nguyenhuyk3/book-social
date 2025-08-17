@@ -22,13 +22,12 @@ import java.io.IOException;
 public class FileService {
     FileRepository fileRepository;
     FileMgmtRepository fileMgmtRepository;
-
     FileMgmtMapper fileMgmtMapper;
 
     public FileResponse uploadFile(MultipartFile file) throws IOException {
-        // Store file
+        // Lưu file
         var fileInfo = fileRepository.store(file);
-        // Create file management info
+        // Tạo file management info
         var fileMgmt = fileMgmtMapper.toFileMgmt(fileInfo);
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
 
